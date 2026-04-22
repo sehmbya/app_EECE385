@@ -1,19 +1,30 @@
 import sys
 import time as t
-from datetime import  datetime 
+import rgb
+from datetime import datetime 
+from gpiozero import LED
 
 def main():
     current_time = datetime.now()
     print("385App Initialized!!!")
 
+    testLED = LED("BOARD11")
+
     #testing output continuously... print time every 5 seconds
     while True:
         print(f"current time in EST is: { current_time }")
 
+        #testLED.on()
+        #t.sleep(1)
+        #testLED.off()
+        #t.sleep(1)
+
+        t.sleep(1)
+        rgb.redLED()
+
         #output to logs for testing 
         sys.stdout.flush()
 
-        t.sleep(5) 
 
 if __name__ == "__main__":
     main()
