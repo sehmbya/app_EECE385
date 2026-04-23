@@ -7,16 +7,22 @@ import time as t
 # green = 22 
 
 def redLED():
-    red = gpiozero.LED("GPIO10")
+    red = gpiozero.LED("GPIO10",active_high=False)
     red.on()
     print("red LED is flipped on")
     #red.off()
-
 def blueLED():
-    blue = gpiozero.LED("GPIO27")
+    blue = gpiozero.LED("GPIO27",active_high=False)
     blue.off()
 
 def greenLED():
-    green = gpiozero.LED("GPIO22")
+    green = gpiozero.LED("GPIO22",active_high=False)
     green.off()
-    
+
+def rgbOFF():	
+	r = gpiozero.LED("GPIO10",active_high=False)
+	g = gpiozero.LED("GPIO27",active_high=False)
+	b = gpiozero.LED("GPIO22",active_high=False)
+	r.off()
+	g.off()
+	b.off()

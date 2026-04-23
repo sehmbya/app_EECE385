@@ -21,6 +21,8 @@ def main():
 
         t.sleep(1)
         rgb.redLED()
+        rgb.greenLED()
+        rgb.blueLED()
 
         #output to logs for testing 
         sys.stdout.flush()
