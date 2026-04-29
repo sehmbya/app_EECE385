@@ -2,8 +2,6 @@ from gpiozero import MotionSensor
 import time as t
 
 pir = MotionSensor(4)
- 
-
 
 def motion_detected():
 	print("Motion detected!")

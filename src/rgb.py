@@ -2,31 +2,33 @@ import gpiozero
 import time as t 
 
 # GPIO pinout 
-# blue = 27 
-# red = 10
-# green = 22 
+# blue = 15 
+# red = 18
+# green = 14 
 
-def redLED_blink():
-    red = gpiozero.LED("GPIO10",active_high=False)
+def redLED():
+    red = gpiozero.LED("GPIO18",active_high=False)
     red.on()
-    print("red LED is flipped on")
-    t.sleep(0.25)
-    red.off()
-    print("red LED is flipped off")
-    t.sleep(0.25)
-    #red.off()
-def blueLED():
-    blue = gpiozero.LED("GPIO27",active_high=False)
-    blue.on()
 
-def greenLED():
-    green = gpiozero.LED("GPIO22",active_high=False)
+# blinks n number of times
+def blueLED(n: int) -> None:
+    blue = gpiozero.LED("GPIO14",active_high=False)
+    for _ in range(n):
+        blue.on()
+        t.sleep(0.25)
+        blue.off()
+        t.sleep(0.25)
+
+def greenLEDBlink():
+    green = gpiozero.LED("GPIO15",active_high=False)
     green.on()
+    t.sleep(0.25)
+    green.off()
 
 def rgbOFF():	
-	r = gpiozero.LED("GPIO10",active_high=False)
-	g = gpiozero.LED("GPIO27",active_high=False)
-	b = gpiozero.LED("GPIO22",active_high=False)
+	r = gpiozero.LED("GPIO18",active_high=False)
+	g = gpiozero.LED("GPIO14",active_high=False)
+	b = gpiozero.LED("GPIO15",active_high=False)
 	r.off()
 	g.off()
 	b.off()
