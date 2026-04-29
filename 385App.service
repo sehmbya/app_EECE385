@@ -1,0 +1,18 @@
+[Unit]
+Description=EECE 385 Python Application
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pidev
+WorkingDirectory=/home/pidev/385Repo/385App"
+Environment="PATH=/home/pidev/385Repo/385App/venv/bin"
+ExecStart=/home/pi/projects/myapp/venv/bin/python3 /home/pi/projects/myapp/src/main.py
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/pi/projects/myapp/logs/app.log
+StandardError=append:/home/pi/projects/myapp/logs/error.log
+
+[Install]
+WantedBy=multi-user.target
