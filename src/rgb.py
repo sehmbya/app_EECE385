@@ -6,13 +6,17 @@ import time as t
 # red = 18
 # green = 14 
 
+red = gpiozero.LED("GPIO18",active_high=False)
+blue = gpiozero.LED("GPIO15",active_high=False)
+green = gpiozero.LED("GPIO14",active_high=False)
+
+
 def redLED():
-    red = gpiozero.LED("GPIO18",active_high=False)
-    red.on()
+    if(red.is_lit == False):
+        red.on()
 
 # blinks n number of times
 def blueLED(n: int) -> None:
-    blue = gpiozero.LED("GPIO14",active_high=False)
     for _ in range(n):
         blue.on()
         t.sleep(0.25)
@@ -20,15 +24,14 @@ def blueLED(n: int) -> None:
         t.sleep(0.25)
 
 def greenLEDBlink():
-    green = gpiozero.LED("GPIO15",active_high=False)
     green.on()
     t.sleep(0.25)
     green.off()
 
 def rgbOFF():	
-	r = gpiozero.LED("GPIO18",active_high=False)
-	g = gpiozero.LED("GPIO14",active_high=False)
-	b = gpiozero.LED("GPIO15",active_high=False)
-	r.off()
-	g.off()
-	b.off()
+    if (red.is_lit == True):
+        red.off()
+    if (green.is_lit == True):
+        green.off()
+    if (blue.is_lit == True):
+        blue.off()

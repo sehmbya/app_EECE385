@@ -12,7 +12,7 @@ import time as t
 #{			col2: 11 }
 #{ right	col3: 09 }
 
-
+recent_key = None
 
 # mapping GPIO pins to rows and columns
 row_pins = [26, 19, 13, 6]
@@ -70,6 +70,7 @@ def get_key():
 			
 	if pressed_key:
 		print(f"Key Found: {pressed_key}")
+		recent_key = pressed_key
 		# wait for release to prevent duplicate presses
 		while any(c.is_pressed for c in cols):
 			t.sleep(0.01)
@@ -80,3 +81,7 @@ def get_key():
 	for col in cols:
 		col.when_pressed = get_key
 			
+def get_recent_key() -> str:
+	temp_key = recent_key
+	recent_key = None
+	return temp_key

@@ -29,12 +29,21 @@ def main():
     buzzer.buzzOFF()
 
     rgb.blueLED(3)
+    rgb.rgbOFF()
+    
+    
+
 
     while True:
         #rgb.redLED_blink()
-        rgb.greenLED()
+        #rgb.greenLEDBlink()
 
-
+        if(pir.Intruder == 1):
+            buzzer.buzzON()
+            rgb.redLED()
+        elif(pir.Intruder == 0):
+            buzzer.buzzOFF()
+            rgb.rgbOFF()
 
         #state machine implementation
         #if(state == DISARMED):
