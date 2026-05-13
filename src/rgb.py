@@ -15,6 +15,11 @@ def redLED():
     if(red.is_lit == False):
         red.on()
 
+def redLEDBlink():
+    red.on()
+    t.sleep(0.25)
+    red.off()
+
 # blinks n number of times
 def blueLED(n: int) -> None:
     for _ in range(n):
