@@ -24,8 +24,10 @@ key_map = [
 	["*", "0", "#", "D"]
 ]
 
-# holds a recently pressed key until it is passed to main via get_key()
+# holds a recently pressed key until it is read via get_key()
 RecentKey = None
+# stores the user's pin (changed with set_pin function)
+UserPin = ["1", "1", "1", "1"]
 
 ## PUBLIC FUNCTIONS ##
 
@@ -48,6 +50,63 @@ def get_key() -> str:
 	temp_key = RecentKey
 	RecentKey = None
 	return temp_key
+	
+# Returns true if next four key presses match user_pin, false otherwise
+def enter_pin() -> bool:
+	last4keys = []
+	
+	# record the start time for 20-second timeout
+	start_t = t.time()
+	
+	# loop until 4 keys are received or 20 seconds pass
+	while len(last4keys) < 4:
+		# check if 20s have passed
+		if t.time()-start_t > 20:
+			print("\nTimeout reached during PIN entry.")
+			return False
+		
+		key = get_key()
+		
+		if key is not None:
+			last4keys.append(key)
+			# print an asterisk for each keypress
+			print("*", end="", flush=True)
+			
+	# move cursor to a new line once loop finishes
+	print()
+	
+	# check for valid pin or not
+	return last4keys == UserPin
+
+# Overwrites user_pin with next four key presses
+def set_pin() -> None
+	global UserPin
+	
+	newpin = []
+	
+	# record the start time for the 20-second timeout
+	start_t = t.time()
+	
+	# loop until 4 keys are received or 20 seconds pass
+	while len(newpin) < 4:
+		# check if 20 seconds have passed
+		if t.time() - start_t > 20:
+			print("\nTimeout reached during PIN setup.")
+			return
+		
+		key = get_key()
+		
+		if key is not None:
+			newpin.append(key)
+			# print an asterisk for each keypress
+			print("*", end="", flush=True)
+		
+	# move cursor to a new line once loop finishes
+	print()
+	
+	# save collected keys to the global variable
+	UserPin = new_pin
+
 
 ## END PUBLIC FUNCTIONS ##
 
