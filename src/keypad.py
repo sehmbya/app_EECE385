@@ -53,6 +53,7 @@ def get_key() -> str:
 	
 # Returns true if next four key presses match user_pin, false otherwise
 def enter_pin() -> bool:
+
 	last4keys = []
 	
 	# record the start time for 20-second timeout
@@ -79,7 +80,7 @@ def enter_pin() -> bool:
 	return last4keys == UserPin
 
 # Overwrites user_pin with next four key presses
-def set_pin() -> None
+def set_pin() -> None:
 	global UserPin
 	
 	newpin = []
@@ -105,10 +106,11 @@ def set_pin() -> None
 	print()
 	
 	# save collected keys to the global variable
-	UserPin = new_pin
+	UserPin = newpin
 
 
 ## END PUBLIC FUNCTIONS ##
+
 
 ## PRIVATE FUNCTIONS ##
 
@@ -136,7 +138,7 @@ def keyscan():
 		if pressed_key: break
 			
 	if pressed_key:
-		print(f"Key Found: {pressed_key}")
+		#print(f"Key Found: {pressed_key}")
 		RecentKey = pressed_key
 		# wait for release to prevent duplicate presses
 		while any(c.is_pressed for c in cols):

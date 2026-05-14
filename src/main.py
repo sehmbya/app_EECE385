@@ -37,15 +37,27 @@ def main():
 
             #set the state to ARMED on entry of '*' key and correct PIN
             if(kp.get_key() == '*'):
-                #prev_state = state
-                #[PIN ENTRY/CHECK LOGIC]
-                state = 'ARMED'
-                print(f"State Transition: DISARMED --> { state }")
+                print("ENTER PIN: \n")
+                if(kp.enter_pin() == True):
+                    #prev_state = state
+                    #[PIN ENTRY/CHECK LOGIC]
+                    state = 'ARMED'
+                    print(f"State Transition: DISARMED --> { state }")
+                else:
+                    buzzer.buzzXTimes(1)
+                    print("INCORRECT PIN \n")
+                    continue
             #set the state to PIN_RESET on entry of '#' key and correct PIN 
-            elif(kp.get_key() == '#'):
-                #[PIN ENTRY/CHECK LOGIC]
-                state = 'PIN_RESET'
-                print(f"State Transition: DISARMED --> { state }")
+            elif(kp.get_key() == 'A'):
+                print("ENTER PIN: \n")
+                if(kp.enter_pin() == True):
+                    #[PIN ENTRY/CHECK LOGIC]
+                    state = 'PIN_RESET'
+                    print(f"State Transition: DISARMED --> { state }")
+                else:
+                    buzzer.buzzXTimes(1)
+                    print("INCORRECT PIN \n")
+                    continue
 
         #cannot enter PIN_RESET state from ARMED state
         elif(state == 'ARMED'):
@@ -56,12 +68,18 @@ def main():
                 rgb.rgbOFF()
             prev_state = state
 
-            #manually transition out of ARMED state prrior to intruder detection
+            #manually transition out of ARMED state prior to intruder detection
             if(kp.get_key() == '*'):
-                #[PIN ENTRY/CHECK LOGIC]
-                state = 'DISARMED'
-                print(f"State Transition: ARMED --> { state }")
-                continue
+                print("ENTER PIN: \n")
+                if(kp.enter_pin() == True):
+                    #[PIN ENTRY/CHECK LOGIC]
+                    state = 'DISARMED'
+                    print(f"State Transition: ARMED --> { state }")
+                    continue
+                else:
+                    buzzer.buzzXTimes(1)
+                    print("INCORRECT PIN \n")   
+                    continue
             #Use interrupts via pir.py for motion detected event 
             #Assigned to global var --> alarm gets flipped on 
             elif(pir.Intruder == 1):
@@ -69,13 +87,18 @@ def main():
                 rgb.redLED()
                 #typically we would disarm the sys with PIN entry but '6'
                 #can be a placeholder til then 
-                if(kp.get_key() == '6'):
-                    #[PIN ENTRY/CHECK LOGIC]
-                    buzzer.buzzOFF()
-                    rgb.rgbOFF()
-                    print(f"State Transition: ARMED --> { state }")
-                    #prev_state = state
-                    state = 'DISARMED'
+                if(kp.get_key() == '*'):
+                    print("ENTER PIN TO DISARM: \n")
+                    if(kp.enter_pin() == True):
+                        buzzer.buzzOFF()
+                        rgb.rgbOFF()
+                        state = 'DISARMED'
+                        print(f"State Transition: ARMED --> { state }")
+                        #prev_state = state
+                    else:
+                        print("INCORRECT PIN \n")
+                        buzzer.buzzXTimes(1)
+                        continue
 
         #cannot enter ARMED state from PIN_RESET state 
         elif(state == 'PIN_RESET'):
@@ -83,20 +106,27 @@ def main():
                 buzzer.buzzXTimes(1)
                 buzzer.buzzOFF()
                 rgb.blueLED(1)
+                rgb.rgbOFF()
             prev_state = state
 
             #transition manually between PIN_RESET & DISARMED 
             #NO pin entry required for this specific state transition
             if(kp.get_key() == '*'):
-                prev_state = state
-                state = 'DISARMED'
-                print(f"State Transition: PIN_RESET --> { state }")
-                continue
-            
-            #[PIN RESET keypad functions/logic written here]
+                print("SET NEW PIN: \n")
+                if(kp.enter_pin() == True):
+                    prev_state = state
+                    state = 'DISARMED'
+                    print(f"State Transition: PIN_RESET --> { state }")
+                    #continue
+
+            #PIN RESET LOGIC 
             #successful pin reset --> automatic state transition to DISARMED
-
-
+            if(kp.get_key() == 'A'):
+                kp.set_pin() #allows the user to set a new PIN code 
+                state = 'DISARMED' #automatic transition to DISARMED after new PIN 
+                print("Automatic STATE transition on SET PIN: \n")
+                print(f"State Transition: PIN_RESET --> { state }")
+            
             #elif(pir.Intruder == 0):
                 #buzzer.buzzOFF()
                 #rgb.rgbOFF()
