@@ -1,19 +1,19 @@
 import time as t
 import gpiozero
 
+buzz = gpiozero.Buzzer(23)
+
 #initalizion of buzzer on startup of application 
 def buzzOFF() -> None:
-    buzz = gpiozero.Buzzer(23)
-    buzz.off()
+    if(buzz.is_active == True):
+        buzz.off()
 
 #for intrusion leave buzzer on continuously
 def buzzON():
-    buzz = gpiozero.Buzzer(23)
-    buzz.on()
+    if(buzz.is_active == False):
+        buzz.on()
 
 def buzzXTimes(n: int) -> None:
-    buzz = gpiozero.Buzzer(23)
-
     for _ in range(n):
         buzz.on()
         t.sleep(0.25)
